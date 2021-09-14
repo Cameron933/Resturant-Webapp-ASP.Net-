@@ -29,5 +29,15 @@ namespace Assignment5032.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<RestUser> RestUsers { get; set; }
+
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<Book> Books { get; set; }
+
+        public DbSet<Restaurant> Restaurants { get; set; }
+
+        public DbSet<EventType> EventTypes { get; set; }
     }
 }
