@@ -22,9 +22,21 @@ namespace Assignment5032
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            // The data table
+            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
+                      "~/Scripts/DataTables/jquery.dataTables.min.js",
+                      "~/Scripts/DataTables/dataTables.bootstrap.min.js"));
+
+            // Datetime picker
+            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
+                      "~/Scripts/moment.js",
+                      "~/Scripts/bootstrap-datetimepicker.min.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/DataTables/css/dataTables.bootstrap.min.css",
+                      "~/Content/bootstrap-datetimepicker.min.css"));
         }
     }
 }
