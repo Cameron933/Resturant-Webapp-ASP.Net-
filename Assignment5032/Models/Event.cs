@@ -23,9 +23,11 @@ namespace Assignment5032.Models
         public EventType EventType { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd MMMM yyyy hh:mm tt}")]
         public DateTime StartTime { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd MMMM yyyy hh:mm tt}")]
         public DateTime EndTime { get; set; }
     }
 }

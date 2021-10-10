@@ -27,6 +27,7 @@ namespace Assignment5032.Models
         public string Email { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString ="{0:dd MMMM yyyy}")]
         public DateTime Dob { get; set; }
     }
 }
