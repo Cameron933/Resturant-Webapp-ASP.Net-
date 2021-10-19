@@ -1,0 +1,42 @@
+﻿<!-- get role from the model -->
+@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div>
+    @Html.ActionLink("Create new roles", "CreateRole")
+</div>
+<div>
+    @Html.ActionLink("Manage User roles", "ManageRole")
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Role Name
+        </th>
+        <th>
+            Options
+        </th>
+    </tr>
+    @foreach (var role in Model)
+        {
+            <tr>
+                <td>
+                    @role.Name
+                </td>
+           
+                <!-- There is no duplicate role in database, so roleName here is unique which can be used to identify only one role -->
+                <td>
+                    @Html.ActionLink("Edit", "ManageRole", new { roleName = role.Name }) |
+                    @Html.ActionLink("Delete", "DeleteRole", new { roleName = role.Name })
+                </td>
+                
+            </tr>
+        }
+</table>
