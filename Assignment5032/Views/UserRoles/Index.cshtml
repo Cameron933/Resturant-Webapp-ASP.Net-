@@ -6,13 +6,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>User Management</h2>
 
 <div>
     @Html.ActionLink("Create new roles", "CreateRole")
 </div>
 <div>
-    @Html.ActionLink("Manage User roles", "ManageRole")
+    @Html.ActionLink("Adding User roles", "AddRoleToUser")
+</div>
+<div>
+    @Html.ActionLink("Manage User roles", "GetUserRoles")
 </div>
 
 <table class="table">
@@ -33,7 +36,7 @@
            
                 <!-- There is no duplicate role in database, so roleName here is unique which can be used to identify only one role -->
                 <td>
-                    @Html.ActionLink("Edit", "ManageRole", new { roleName = role.Name }) |
+                    @Html.ActionLink("Edit", "EditRole", new { roleName = role.Name }) |
                     @Html.ActionLink("Delete", "DeleteRole", new { roleName = role.Name })
                 </td>
                 

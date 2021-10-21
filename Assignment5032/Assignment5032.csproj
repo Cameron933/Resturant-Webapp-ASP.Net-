@@ -580,6 +580,7 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\googlemap.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -657,7 +658,10 @@
     <Content Include="Views\UserRoles\Index.cshtml" />
     <Content Include="Views\UserRoles\CreateRole.cshtml" />
     <Content Include="Views\UserRoles\DeleteRole.cshtml" />
-    <Content Include="Views\UserRoles\ManageRole.cshtml" />
+    <Content Include="Views\UserRoles\EditRole.cshtml" />
+    <Content Include="Views\UserRoles\AddRoleToUser.cshtml" />
+    <Content Include="Views\UserRoles\GetUserRoles.cshtml" />
+    <Content Include="Views\UserRoles\DeleteUserRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

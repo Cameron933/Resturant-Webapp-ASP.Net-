@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace Assignment5032.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()

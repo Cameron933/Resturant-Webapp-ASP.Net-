@@ -37,6 +37,11 @@ namespace Assignment5032
                       "~/Content/site.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.min.css",
                       "~/Content/bootstrap-datetimepicker.min.css"));
+
+            // Google simple map
+            bundles.Add(new ScriptBundle("~/bundles/googlemap").Include(
+                      "~/Scripts/googlemap.js"));
+
         }
     }
 }

@@ -5,7 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<style>
+    #map {
+        height: 500px;
+    }
+</style>
+
+
+
+<h2>Restaurants</h2>
+
+<div id="map"></div>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -24,23 +34,37 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactNumb)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RestID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RestID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RestID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactNumb)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.RestID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.RestID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.RestID })
+            </td>
+        </tr>
+    }
 
 </table>
+
+
+
+@section Scripts {
+    <!-- The following javaScripts is for map function. -->
+    @Scripts.Render("~/bundles/googlemap")
+    <!-- Reference:https://developers.google.com/maps/documentation/javascript/examples/map-simple#maps_map_simple-html -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKdrPyI93BtTUAPKtCag379VWZHTSlR1M&callback=initMap&v=weekly"
+            async></script>
+}
+

@@ -1,7 +1,7 @@
 ﻿<!-- get role from the model -->
 @model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
 @{
-    ViewBag.Title = "ManageRole";
+    ViewBag.Title = "EditRole";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,6 +13,7 @@
 
 @using (Html.BeginForm())
 {
+    // only admin can edit roles
     @Html.AntiForgeryToken()
     // just need the user ID from model
     <div class="form-horizontal">

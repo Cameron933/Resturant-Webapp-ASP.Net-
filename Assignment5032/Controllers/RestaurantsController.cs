@@ -38,7 +38,9 @@ namespace Assignment5032.Controllers
         // GET: Restaurants/Create
         public ActionResult Create()
         {
-            return View();
+            // Verfy Userrole
+            if (User.IsInRole("Admmin")) { return View(); }
+            return HttpNotFound();
         }
 
         // POST: Restaurants/Create
@@ -123,5 +125,15 @@ namespace Assignment5032.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // A method for getting restaurants from database
+        // let this function return a json array for further use in map
+        public JsonResult GetRestaurantsList()
+        {
+            var restaurants = db.Restaurants.ToList();
+            return new JsonResult { Data = restaurants, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+
     }
 }
