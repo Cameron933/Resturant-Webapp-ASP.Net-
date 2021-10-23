@@ -17,7 +17,7 @@ namespace Assignment5032.Utils
         public async Task Send(String toEmail, String subject, String contents)
         {
             var client = new SendGridClient(API_KEY);
-            var from = new EmailAddress("778286323@qq.com", "FIT5032 Example Email User");
+            var from = new EmailAddress("778286323@qq.com", "YuLong Restaurant");
             var to = new EmailAddress(toEmail, "778286323@qq.com");
             var plainTextContent = contents;
             var htmlContent = "<p>" + contents + "</p>";

@@ -1,7 +1,6 @@
 ﻿// testing this .js file
 // console.log("google simple map works");
-
-const { intl } = require("modernizr");
+// const { intl } = require("modernizr");
 
 // let variable, changeable
 let map;
@@ -48,13 +47,10 @@ function initMap() {
                         lng: position.coords.longitude,
                     };
 
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent("Location found.");
-                    infoWindow.open(map);
                     map.setCenter(pos);
                 },
                 () => {
-                    handleLocationError(true, infoWindow, map.getCenter());
+                    handleLocationError(false, infoWindow, map.getCenter());
                 }
             );
         }
@@ -69,8 +65,40 @@ function initMap() {
     // use for loop to mark each restaurant on the map by calling the function defined below
     for (var i = 0; i < restaurants.length; i++)
     {
-        transRestAddress(map,restaurants[i]);
+        // console.log(restaurants[i]);
+        transRestAddress(map, restaurants[i]);
     }
+
+    // routing function
+    // Reference:https://developers.google.com/maps/documentation/javascript/examples/directions-panel#maps_directions_panel-javascript
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const directionsService = new google.maps.DirectionsService();
+
+    directionsRenderer.setMap(map);
+    directionsRenderer.setPanel(document.getElementById("sidebar"));
+
+    var getWay = document.getElementById("getway");
+
+    getWay.addEventListener("click", function () {
+        directionsService.route({
+            origin: { query: document.getElementById("start_p").value },
+            destination: { query: document.getElementById("destination").value },
+            travelMode: google.maps.TravelMode[document.getElementById("mode").value]
+        },
+            (response, status) => {
+                if (status == "OK") {
+                    directionsRenderer.setDirections(response);
+                }else {
+                    window.alert("Unable to directing you, sorry!");
+                }
+        });
+    });
+
+    // routing function auto complete the input address feature
+    // Reference:https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
+    var start_p = document.getElementById("start_p");
+    const autoAddress = new google.maps.places.Autocomplete(start_p);
+    autoAddress.bindTo("bounds", map);
 
 }
 
@@ -92,8 +120,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 function transRestAddress(map, restaurants)
 {
     // The name of restaurant as information
-    const info = "<h4>" + restaurants.Name + "</h4><p>" + restaurants.ContactNumb + "</p>";
-
+    var info = "<h4>" + restaurants.Name + "</h4><p>" + restaurants.ContactNumb + "</p>";
+    
     // Information window
     // Reference:https://developers.google.com/maps/documentation/javascript/infowindows
     const infowindow = new google.maps.InfoWindow({
@@ -103,18 +131,31 @@ function transRestAddress(map, restaurants)
     // Google geocoder(match the google map, less error) trans the Restaurant address
     // Reference:https://stackoverflow.com/questions/16274508/how-to-call-google-geocoding-service-from-c-sharp-code
     // Add markers
-    var geocoder = new google.maps.geocoder();
-    geocoder.geocode({ address: restaurants.Address }), function (result, status)
-    {
+    var geocoder = new google.maps.Geocoder();
+
+    // map marker icon
+    // Reference:https://developers.google.com/maps/documentation/javascript/examples/icon-complex
+    const image = {
+        url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+        // This marker is 20 pixels wide by 32 pixels high.
+        size: new google.maps.Size(20, 32),
+        // The origin for this image is (0, 0).
+        origin: new google.maps.Point(0, 0),
+        // The anchor for this image is the base of the flagpole at (0, 32).
+        anchor: new google.maps.Point(0, 32),
+    };
+    
+    geocoder.geocode({ address: restaurants.Address }, function (result, status) {
         if (status === "OK") {
             var marker = new google.maps.Marker({
                 map: map,
+                icon: image,
                 position: result[0].geometry.location
             });
         }
 
-        marker.addListener("click", function() {
-            infowindow.open(map,marker)
-            });
-    }
+        marker.addListener("click", function () {
+            infowindow.open(map, marker)
+        });
+    });
 }

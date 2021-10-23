@@ -39,8 +39,9 @@ namespace Assignment5032.Controllers
         public ActionResult Create()
         {
             // Verfy Userrole
-            if (User.IsInRole("Admmin")) { return View(); }
-            return HttpNotFound();
+            //if (User.IsInRole("Admin")) { return View(); }
+            //else{ return HttpNotFound(); }
+            return View();
         }
 
         // POST: Restaurants/Create
