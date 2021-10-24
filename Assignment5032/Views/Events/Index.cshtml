@@ -5,11 +5,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>YuLong Restaurant Events</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div id="calendar">
+</div>
+
+<div id="descriptions" style="display:none">
+    <h4>
+        The Event description
+    </h4>
+    <div><strong>Event Name:</strong><span id="eventName"></span></div>
+    <div><strong>Holding Lovation:</strong><span id="restName"></span></div>
+    <div><strong>Start at:</strong><span id="startTime"></span></div>
+    <div><strong>End at:</strong><span id="endTime"></span></div>
+    <hr />
+    <div><a id="bookingLink" style="display: none">Book now</a></div>
+</div>
+
+<hr />
+<hr />
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
 <table class="table">
     <tr>
         <th>
@@ -27,26 +46,80 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventType.EventName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Restaurant.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventType.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Restaurant.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.ActionLink("Book", "BookEvent", "Books", new { id = item.EventId }, null) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.EventId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EventId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EventId })
+            </td>
+        </tr>
+    }
 
 </table>
+}
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/fullcalendar")
+    <script>
+        // const { moment } = require("../../Scripts/fullcalendar");
+
+        // need to get data from controller
+        // data from database
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "/Events/GetEvents", false);
+        xmlHttp.send();
+        var restEvents = JSON.parse(xmlHttp.responseText);
+        console.log(restEvents);
+
+        // convert data for calendar
+        // new array
+        var events = [];
+        for (var i = 0; i < restEvents.length; i++) {
+            // decide if the event is over
+            // push grayish color for past events
+            if (moment(restEvents[i].EndTime) > Date.now()) {
+                events.push({
+                    color: "#00ff00",
+                    eventId: restEvents[i].EventId,
+                    store: restEvents[i].Restaurant.Name,
+                    title: restEvents[i].EventType.EventName,
+                    description: restEvents[i].EventType.Description,
+                    start: moment(restEvents[i].StartTime),
+                    end: moment(restEvents[i].EndTime)
+                });
+            }
+            else {
+                events.push({
+                    color: "#a3a3c2",
+                    eventId: restEvents[i].Id,
+                    store: restEvents[i].Restaurant.Name,
+                    title: restEvents[i].EventType.EventName,
+                    description: restEvents[i].EventType.Description,
+                    start: moment(restEvents[i].StartTime),
+                    end: moment(restEvents[i].EndTime)
+                });
+            }
+        }
+        // console.log(events);
+
+        // send the data and call the function
+        calendarMaker(events);
+    </script>
+}

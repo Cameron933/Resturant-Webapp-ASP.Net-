@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
 
 namespace Assignment5032.Controllers
 {
@@ -38,19 +39,22 @@ namespace Assignment5032.Controllers
         }
 
         [HttpPost]
-        public ActionResult Send_Email(SendEmailViewModel model)
+        public async Task<ActionResult> Send_EmailAsync(SendEmailViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    String toEmail = model.ToEmail;
+                    String entryMails = model.ToEmails;
+                    // split target mail box address by ,
+                    // store all these to a string array
+                    string[] toEmails = entryMails.Split(',');
                     String subject = model.Subject;
                     String contents = model.Contents;
 
                     EmailSender es = new EmailSender();
-                    es.Send(toEmail, subject, contents);
-
+                    var resp = await es.SendAsync(toEmails, subject, contents);
+                    Console.WriteLine(resp);
                     ViewBag.Result = "Email has been send.";
 
                     ModelState.Clear();

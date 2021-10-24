@@ -1,0 +1,42 @@
+﻿@model List<Assignment5032.Models.Book>
+
+@{
+    ViewBag.Title = "MyBookedEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Booked Events</h2>
+
+@if (Model == null)
+{
+    <h3>Sorry, you did not book an event before.</h3>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Event</th>
+            <th>Restaurant</th>
+            <th>Begin Time</th>
+            <th>End Time</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Event.EventType.EventName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Event.Restaurant.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Event.StartTime)</td>
+                <td>@Html.DisplayFor(modelItem => item.Event.EndTime)</td>
+                @if (item.Event.StartTime > DateTime.Now)
+                {
+                    <td>@Html.ActionLink("Delete", "DeletBookEvent", new { EventId = item.Event.EventId })</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+        }
+    </table>
+}

@@ -132,5 +132,13 @@ namespace Assignment5032.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // A method for getting Events from database
+        // let this function return a json array for further use in booking
+        public JsonResult GetEvents()
+        {
+            var events = db.Events.Include("EventType").Include("Restaurant").ToList();
+            return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
     }
 }
