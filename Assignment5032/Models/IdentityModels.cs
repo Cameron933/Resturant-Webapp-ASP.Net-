@@ -34,7 +34,13 @@ namespace Assignment5032.Models
 
         public DbSet<Event> Events { get; set; }
 
+        // Key assign of the the bridging entity
         public DbSet<Book> Books { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Book>().HasKey(e => new { e.UserId, e.EventId });
+        }
 
         public DbSet<Restaurant> Restaurants { get; set; }
 

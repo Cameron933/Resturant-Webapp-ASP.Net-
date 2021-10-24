@@ -52,8 +52,8 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="SendGrid, Version=9.24.3.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\SendGrid.9.24.3\lib\net452\SendGrid.dll</HintPath>
+    <Reference Include="SendGrid, Version=9.24.4.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\SendGrid.9.24.4\lib\net452\SendGrid.dll</HintPath>
     </Reference>
     <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b2e6337a5d77bfbc, processorArchitecture=MSIL">
       <HintPath>..\packages\starkbank-ecdsa.1.3.1\lib\net452\StarkbankEcdsa.dll</HintPath>
@@ -195,6 +195,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RestaurantsController.cs" />
     <Compile Include="Controllers\RestUsersController.cs" />
+    <Compile Include="Controllers\UserRolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -233,6 +234,10 @@
     <Compile Include="Migrations\202109141346440_Update Users email.cs" />
     <Compile Include="Migrations\202109141346440_Update Users email.Designer.cs">
       <DependentUpon>202109141346440_Update Users email.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110240734372_bookchanges.cs" />
+    <Compile Include="Migrations\202110240734372_bookchanges.Designer.cs">
+      <DependentUpon>202110240734372_bookchanges.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -503,6 +508,7 @@
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
+    <Content Include="Scripts\calendar.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
@@ -579,6 +585,7 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\googlemap.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -647,16 +654,18 @@
     <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
-    <Content Include="Views\Books\Create.cshtml" />
-    <Content Include="Views\Books\Delete.cshtml" />
-    <Content Include="Views\Books\Details.cshtml" />
-    <Content Include="Views\Books\Edit.cshtml" />
-    <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Home\Send_Email.cshtml" />
+    <Content Include="Views\UserRoles\Index.cshtml" />
+    <Content Include="Views\UserRoles\CreateRole.cshtml" />
+    <Content Include="Views\UserRoles\DeleteRole.cshtml" />
+    <Content Include="Views\UserRoles\EditRole.cshtml" />
+    <Content Include="Views\UserRoles\AddRoleToUser.cshtml" />
+    <Content Include="Views\UserRoles\GetUserRoles.cshtml" />
+    <Content Include="Views\UserRoles\DeleteUserRole.cshtml" />
+    <Content Include="Views\Books\ViewBookedEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\UserRoles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -698,6 +707,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109141346440_Update Users email.resx">
       <DependentUpon>202109141346440_Update Users email.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110240734372_bookchanges.resx">
+      <DependentUpon>202110240734372_bookchanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

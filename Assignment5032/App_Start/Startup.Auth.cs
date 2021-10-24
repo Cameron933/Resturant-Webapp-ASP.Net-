@@ -45,24 +45,30 @@ namespace Assignment5032
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
+            // Reference:https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/external-authentication-services
             // Uncomment the following lines to enable logging in with third party login providers
+            // Microsoft login
             //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            //    clientId: "426f62526f636b73",
+            //   clientSecret: "57686f6120447564652c2049495320526f636b73");
 
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
             //   consumerSecret: "");
 
+            // Facebook login
+            // Reference:https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/external-authentication-services
             //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            //   appId: "426f62526f636b73",
+            //   appSecret: "asd");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            // google login
+            // Reference:https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/external-authentication-services
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "537882073449-ah950i3g7vukdo3uakt561osqs8cgmm8.apps.googleusercontent.com",
+                ClientSecret = "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"
+            });
         }
     }
 }

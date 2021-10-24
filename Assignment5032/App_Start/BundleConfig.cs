@@ -22,7 +22,7 @@ namespace Assignment5032
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
-            // The data table
+            // The interactive data table
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
                       "~/Scripts/DataTables/jquery.dataTables.min.js",
                       "~/Scripts/DataTables/dataTables.bootstrap.min.js"));
@@ -32,11 +32,24 @@ namespace Assignment5032
                       "~/Scripts/moment.js",
                       "~/Scripts/bootstrap-datetimepicker.min.js"));
 
+            // Bootstrap interactive table data & full calendar css
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.min.css",
-                      "~/Content/bootstrap-datetimepicker.min.css"));
+                      "~/Content/bootstrap-datetimepicker.min.css",
+                      "~/Content/fullcalendar.min.css"));
+
+            // Google simple map
+            bundles.Add(new ScriptBundle("~/bundles/googlemap").Include(
+                      "~/Scripts/googlemap.js"));
+
+            // Full calendar for booking event
+            bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
+                      "~/Scripts/moment.js",
+                      "~/Scripts/fullcalendar.min.js",
+                      "~/Scripts/calendar.js"));
+
         }
     }
 }

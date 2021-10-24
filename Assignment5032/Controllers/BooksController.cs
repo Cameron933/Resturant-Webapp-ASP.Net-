@@ -1,136 +1,75 @@
-﻿using System;
+﻿using Assignment5032.Models;
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Assignment5032.Models;
 
 namespace Assignment5032.Controllers
 {
     public class BooksController : Controller
     {
+        // database object
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Books
         public ActionResult Index()
         {
-            var books = db.Books.Include(b => b.Event).Include(b => b.RestUser);
-            return View(books.ToList());
+            return HttpNotFound();
         }
 
-        // GET: Books/Details/5
-        public ActionResult Details(int? id)
+        //
+        [Authorize(Roles = "Customer")]
+        public ActionResult ViewBookedEvents()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Book book = db.Books.Include(e => e.RestUser).Include(e => e.Event).First(e => e.UserId == id);
-            if (book == null)
-            {
-                return HttpNotFound();
-            }
-            return View(book);
+            var userId = User.Identity.GetUserId();
+            return View(db.Books.Include("Event").Include("Event.EventType").Include("Event.Restaurant").Where(a => a.UserId.ToString() == userId).ToList());
         }
 
-        // GET: Books/Create
-        public ActionResult Create()
+        // 
+        [Authorize(Roles = "Customer")]
+        public ActionResult DeletBookEvent(int eventId)
         {
-            ViewBag.EventId = new SelectList(db.Events, "EventId", "EventId");
-            ViewBag.UserId = new SelectList(db.RestUsers, "UserId", "FirstName");
-            return View();
-        }
+            var userId = User.Identity.GetUserId();
+            var deleteEvent = db.Books.FirstOrDefault(o => o.EventId == eventId && o.UserId.ToString() == userId);
 
-        // POST: Books/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookId,UserId,EventId")] Book book)
-        {
-            if (ModelState.IsValid)
+            if (deleteEvent != null)
             {
-                db.Books.Add(book);
+                db.Books.Remove(deleteEvent);
+                // commit
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            ViewBag.EventId = new SelectList(db.Events, "EventId", "EventId", book.EventId);
-            ViewBag.UserId = new SelectList(db.RestUsers, "UserId", "FirstName", book.UserId);
-            return View(book);
+            return RedirectToAction("ViewBookedEvents");
         }
 
-        // GET: Books/Edit/5
-        public ActionResult Edit(int? id)
+        //
+        [Authorize(Roles = "Customer")]
+        public ActionResult BookEvent(int id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Book book = db.Books.Find(id);
-            if (book == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.EventId = new SelectList(db.Events, "EventId", "EventId", book.EventId);
-            ViewBag.UserId = new SelectList(db.RestUsers, "UserId", "FirstName", book.UserId);
-            return View(book);
-        }
+            // find user by id
+            var userId = User.Identity.GetUserId();
+            // int uId = int.Parse(userId);
 
-        // POST: Books/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookId,UserId,EventId")] Book book)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.EventId = new SelectList(db.Events, "EventId", "EventId", book.EventId);
-            ViewBag.UserId = new SelectList(db.RestUsers, "UserId", "FirstName", book.UserId);
-            return View(book);
-        }
-
-        // GET: Books/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Book book = db.Books.Find(id);
-            if (book == null)
-            {
-                return HttpNotFound();
-            }
-            return View(book);
-        }
-
-        // POST: Books/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
+            // add the booked event to the database
+            var bookEvent = new Book { EventId = id, UserId = userId };
+            db.Books.Add(bookEvent);
+            // commit
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
+            var user = db.Users.FirstOrDefault(u => u.Id == userId.ToString());
+            bookEvent.Event = db.Events.FirstOrDefault(e => e.EventId == id);
+            bookEvent.Event.Restaurant = db.Restaurants.FirstOrDefault(r => r.RestID == bookEvent.Event.RestID);
+
+            return RedirectToAction("ViewBookedEvents");
             }
-            base.Dispose(disposing);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+               return RedirectToAction("ViewBookedEvents");
+            }
         }
     }
 }

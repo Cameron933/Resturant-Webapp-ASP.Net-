@@ -10,8 +10,7 @@ namespace Assignment5032.Models
     {
         [Display(Name = "Email address")]
         [Required(ErrorMessage = "Please enter an email address.")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        public string ToEmail { get; set; }
+        public string ToEmails { get; set; }
 
         [Required(ErrorMessage = "Please enter a subject.")]
         public string Subject { get; set; }

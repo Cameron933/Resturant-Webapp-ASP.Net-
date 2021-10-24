@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "AddRoleToUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddRoleToUser</h2>
+
+
+@using (Html.BeginForm())
+{
+    // only admin can modify user role
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    // for user selection dropdown list
+    <div class="form-group">
+        <label class="control-label col-md-2">Email</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Email", (IEnumerable<SelectListItem>)ViewBag.Users, "Select...", htmlAttributes: new { @class = "form-control col-md-10" })
+        </div>
+    </div>
+
+    // for roles selection dropdown list
+    <div class="form-group">
+        <label class="control-label col-md-2">Role</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Role", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select...", htmlAttributes: new { @class = "form-control col-md-10" })
+        </div>
+    </div>
+
+    // add a button for submit user role
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Add to user" class="btn btn-default" />
+        </div>
+    </div>
+}
+
