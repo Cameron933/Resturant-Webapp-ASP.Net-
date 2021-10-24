@@ -66,8 +66,8 @@ namespace Assignment5032
             // Reference:https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/external-authentication-services
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "537882073449-ah950i3g7vukdo3uakt561osqs8cgmm8.apps.googleusercontent.com",
-                ClientSecret = "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"
+                ClientId = "",
+                ClientSecret = ""
             });
         }
     }
